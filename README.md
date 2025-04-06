@@ -88,7 +88,9 @@ You can also pull the image and run it locally to verify that the Docker image w
 
 ```
 docker pull yourdockerhubusername/flask-docker-app:latest
-docker run -p 5000:5000 yourdockerhubusername/flask-docker-app:latest
+
+# Map port 5000 inside the container to, say, port 8080 on your Mac
+docker run -p 8080:5000 yourdockerhubusername/flask-docker-app:latest
 ```
 This should start your Flask app on port 5000 locally.
 
@@ -111,3 +113,56 @@ Ensure the Dockerfile, app.py, and requirements.txt are valid.
     push: true
     platforms: linux/amd64,linux/arm64 # <<< include for MacOS>>>
     tags: ${{ secrets.DOCKER_USERNAME }}/flask-docker-app:latest```
+
+
+# why 8080:5000?
+The -p flag in Docker maps host ports to container ports using the syntax:
+
+-p <host-port>:<container-port>
+🔍 So in -p 8080:5000:
+5000 is the port your Flask app is listening on inside the container (because Flask by default runs on port 5000).
+
+8080 is the port you’re exposing on your local machine (Mac) so you can access it in your browser via http://localhost:8080.
+
+# 💡 Why not 5000:5000?
+You can do that:
+
+docker run -p 5000:5000 aalimsee/flask-docker-app:latest
+But if something on your Mac is already using port 5000 (like another Flask app), you'll get a “port already in use” error. So:
+
+✅ 5000:5000 is clean if port 5000 is free
+
+✅ 8080:5000 avoids conflict by mapping container port 5000 to a different host port (8080)
+
+# CMD ["flask", "run", "--host=0.0.0.0"]
+Here's an explanation of:
+
+    CMD ["flask", "run", "--host=0.0.0.0"]
+    This line is in your Dockerfile and it's responsible for telling Docker how to start your application once the container is created.
+    
+    🔍 Breakdown of CMD:
+    In Dockerfiles, CMD defines the default command to run when the container starts.
+    
+    ✅ 1. flask
+    This is the Flask command-line interface (CLI). The flask command helps run and manage your Flask application. When you use flask run, it starts the development server for your app.
+    
+    The flask CLI is available because Flask is installed in the container’s environment (via pip in your requirements.txt).
+    
+    ✅ 2. run
+    This is a subcommand to the flask CLI. It starts the Flask development server.
+    
+    bash
+    Copy
+    Edit
+    flask run
+    By default, the server listens on localhost (127.0.0.1) and port 5000.
+    
+    ✅ 3. --host=0.0.0.0
+    This tells Flask to listen on all available network interfaces instead of just 127.0.0.1 (localhost).
+    
+    127.0.0.1: Only allows connections from inside the container (i.e., localhost).
+    
+    0.0.0.0: Makes your app accessible to the outside world, including your local machine and any external requests (like from Docker).
+    
+    This is especially important in Docker because if Flask only listens on 127.0.0.1, your Mac won’t be able to connect to the app running inside the container. Using 0.0.0.0 ensures your Flask app is reachable when running inside Docker.
+
