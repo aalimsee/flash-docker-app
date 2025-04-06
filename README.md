@@ -52,12 +52,10 @@ Make a change in any of your files (like updating the app.py or adding comments)
 
 After making the change, run the following commands to commit and push to the main branch:
 
-bash
-Copy
-Edit
-git add .
+```git add .
 git commit -m "Trigger build and push workflow"
 git push origin main
+```
 3. Check GitHub Actions
 Go to your GitHub repository.
 
@@ -88,8 +86,10 @@ You should see the flask-docker-app repository with the latest tag (e.g., latest
 
 You can also pull the image and run it locally to verify that the Docker image works correctly:
 
-```docker pull yourdockerhubusername/flask-docker-app:latest
-docker run -p 5000:5000 yourdockerhubusername/flask-docker-app:latest```
+```
+docker pull yourdockerhubusername/flask-docker-app:latest
+docker run -p 5000:5000 yourdockerhubusername/flask-docker-app:latest
+```
 This should start your Flask app on port 5000 locally.
 
 5. Troubleshooting
