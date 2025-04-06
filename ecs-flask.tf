@@ -54,7 +54,7 @@ resource "aws_ecs_task_definition" "flask_task" {
       portMappings = [
         {
           containerPort = 5000
-          hostPort      = 5000
+          hostPort      = 8080
         }
       ]
     }
