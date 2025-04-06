@@ -9,7 +9,7 @@ name: Terraform Deployment
 on:
   push:
     branches:
-      - main
+      - feature/ecs
 
 env:
   AWS_REGION: us-east-1
