@@ -1,7 +1,7 @@
 
 
 
-# flash-docker-app
+# flask-docker-app
 3.3 Introduction to Containerisation
 
 # Steps
@@ -154,7 +154,7 @@ Here's an explanation of:
     This is a subcommand to the flask CLI. It starts the Flask development server.
     
     flask run
-    
+
     By default, the server listens on localhost (127.0.0.1) and port 5000.
     
     ✅ 3. --host=0.0.0.0
