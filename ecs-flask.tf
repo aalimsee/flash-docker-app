@@ -24,6 +24,14 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 }
 
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "aalimsee-igw"
+  }
+}
+
 resource "aws_security_group" "ecs_sg" {
   name        = "flask-app-sg"
   description = "Allow HTTP and HTTPS"
