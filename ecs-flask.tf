@@ -5,6 +5,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "sctp-ce9-tfstate"
+    key    = "aalimsee-ce9-M3.3-flask-docker-app.tfstate" # Replace the value of key to <your>.tfstate
+    region = "us-east-1"
+  }
+}
+
 resource "aws_vpc" "main" {
   cidr_block = "144.0.0.0/16"
 }
@@ -68,7 +76,7 @@ resource "aws_ecs_task_definition" "flask_task" {
       portMappings = [
         {
           containerPort = 5000
-          hostPort      = 5000
+          hostPort      = 80
         }
       ]
     }
