@@ -112,13 +112,15 @@ Ensure the Dockerfile, app.py, and requirements.txt are valid.
     context: .
     push: true
     platforms: linux/amd64,linux/arm64 # <<< include for MacOS>>>
-    tags: ${{ secrets.DOCKER_USERNAME }}/flask-docker-app:latest```
+    tags: ${{ secrets.DOCKER_USERNAME }}/flask-docker-app:latest
+```
 
 
 # why 8080:5000?
 The -p flag in Docker maps host ports to container ports using the syntax:
 
 -p <host-port>:<container-port>
+
 🔍 So in -p 8080:5000:
 5000 is the port your Flask app is listening on inside the container (because Flask by default runs on port 5000).
 
@@ -128,10 +130,10 @@ The -p flag in Docker maps host ports to container ports using the syntax:
 You can do that:
 
 docker run -p 5000:5000 aalimsee/flask-docker-app:latest
+
 But if something on your Mac is already using port 5000 (like another Flask app), you'll get a “port already in use” error. So:
 
 ✅ 5000:5000 is clean if port 5000 is free
-
 ✅ 8080:5000 avoids conflict by mapping container port 5000 to a different host port (8080)
 
 # CMD ["flask", "run", "--host=0.0.0.0"]
@@ -151,10 +153,8 @@ Here's an explanation of:
     ✅ 2. run
     This is a subcommand to the flask CLI. It starts the Flask development server.
     
-    bash
-    Copy
-    Edit
     flask run
+    
     By default, the server listens on localhost (127.0.0.1) and port 5000.
     
     ✅ 3. --host=0.0.0.0
