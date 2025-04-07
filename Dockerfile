@@ -11,6 +11,7 @@ WORKDIR /app
 COPY . /app
 
 # Install dependencies
+# The --no-cache-dir flag in the pip install command is used to prevent pip from storing downloaded packages in its cache during the install process
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container

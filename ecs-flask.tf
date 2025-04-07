@@ -24,14 +24,6 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 }
 
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.main.id
-
-  tags = {
-    Name = "aalimsee-igw"
-  }
-}
-
 # Public Route Table with Route to IGW
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
@@ -46,10 +38,20 @@ resource "aws_route_table" "public" {
   }
 }
 
+# Associate Route Table with Public Subnets
 resource "aws_route_table_association" "public" {
   subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "aalimsee-igw"
+  }
+}
+
 
 resource "aws_security_group" "ecs_sg" {
   name        = "flask-app-sg"
@@ -84,6 +86,7 @@ resource "aws_security_group" "ecs_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
 
 resource "aws_ecs_cluster" "main" {
   name = "flask-cluster"
