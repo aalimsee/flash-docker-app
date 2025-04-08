@@ -1,9 +1,6 @@
 
 
 
-
-
-
 provider "aws" {
   region = "us-east-1"
 }
@@ -129,3 +126,4 @@ resource "aws_ecs_service" "flask_service" {
     security_groups  = [aws_security_group.ecs_sg.id]
   }
 }
+
