@@ -13,7 +13,7 @@ env:
   AWS_REGION: us-east-1  
 
 jobs:
-  CICD-DESTROY-ECS:
+  CICD-DESTROY-ECS1:
     runs-on: ubuntu-latest
 
     steps:
@@ -35,3 +35,4 @@ jobs:
    
     - name: Terraform Destroy
       run: terraform destroy --auto-approve
+      

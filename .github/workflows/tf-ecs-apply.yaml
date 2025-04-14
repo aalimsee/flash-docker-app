@@ -15,7 +15,7 @@ env:
   AWS_REGION: us-east-1
 
 jobs:
-  CICD-CREATE-ECS:
+  CICD-CREATE-ECS1:
     runs-on: ubuntu-latest
 
     steps:
@@ -40,3 +40,4 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply --auto-approve
+        
